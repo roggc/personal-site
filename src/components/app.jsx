@@ -195,7 +195,8 @@ const createSlice = (
   name,
   getUseActions,
   isGetInitialStateFromStorage,
-  AsyncStorage
+  AsyncStorage,
+  middleware = []
 ) => {
   const StateContext = React.createContext({});
   const DispatchContext = React.createContext(() => {});
@@ -234,6 +235,17 @@ const createSlice = (
       initialState_ !== undefined ? undefined : init
     );
 
+    const enhancedDispatch = React.useMemo(
+      () =>
+        middleware
+          .map((middleware) => middleware((action) => enhancedDispatch(action)))
+          .reduceRight(
+            (dispatch, middleware) => middleware(dispatch),
+            dispatch
+          ),
+      [dispatch]
+    );
+
     React.useEffect(() => {
       if (isGetInitialStateFromStorage && !!AsyncStorage) {
         (async () => {
@@ -255,7 +267,7 @@ const createSlice = (
 
     return (
       <StateContext.Provider value={{ [name]: state }}>
-        <DispatchContext.Provider value={dispatch}>
+        <DispatchContext.Provider value={enhancedDispatch}>
           {children}
         </DispatchContext.Provider>
       </StateContext.Provider>
@@ -289,7 +301,8 @@ const createTypicalSlice = (
   reducer,
   init,
   isGetInitialStateFromStorage,
-  AsyncStorage
+  AsyncStorage,
+  middleware
 ) => {
   const SET = "SET";
   const reducer_ =
@@ -316,7 +329,8 @@ const createTypicalSlice = (
       return !!reducer ? { [name]: { dispatch } } : { [name]: { set } };
     },
     isGetInitialStateFromStorage,
-    AsyncStorage
+    AsyncStorage,
+    middleware
   );
   return { useValues, useActions, Provider };
 };
@@ -324,14 +338,18 @@ const createTypicalSlice = (
 const getHookAndProviderFromSlices = (slices, AsyncStorage = null) => {
   const { useValues, useActions, providers } = Object.entries(slices)
     .map(
-      ([name, { initialArg, reducer, isGetInitialStateFromStorage, init }]) =>
+      ([
+        name,
+        { initialArg, reducer, isGetInitialStateFromStorage, init, middleware },
+      ]) =>
         createTypicalSlice(
           name,
           initialArg,
           reducer,
           init,
           !!isGetInitialStateFromStorage,
-          AsyncStorage
+          AsyncStorage,
+          middleware
         )
     )
     .reduce(
