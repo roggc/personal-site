@@ -36,13 +36,13 @@ const App = () => {
             developer.
           </WhoIAmParagraph>
           <WhoIAmParagraph>
-            I love React development. I also use javascript, typescript (less)
-            and git.
+            I love React development. I also use javascript, typescript, and
+            git.
           </WhoIAmParagraph>
           <WhoIAmParagraph>
             I am the author of the library <strong>react-context-slices</strong>{" "}
             for React and React Native, which solves once for all the problem of
-            managing state in a React and React Native app. It's the definitive
+            managing global state in React and React Native. It's the definitive
             solution to it.
           </WhoIAmParagraph>
           <WhoIAmParagraph>
@@ -133,6 +133,15 @@ root.render(
         </WhoIAmTitle>
         <Body>
           <WhoIAmParagraph>roggc9@gmail.com</WhoIAmParagraph>
+          <WhoIAmParagraph>
+            <a
+              href="https://twitter.com/roggc9"
+              target="_blank"
+              onClick={stopPropagation}
+            >
+              twitter
+            </a>
+          </WhoIAmParagraph>
           <WhoIAmParagraph>
             <a
               href="https://www.linkedin.com/in/roggc9"
@@ -392,7 +401,6 @@ export default getHookAndProviderFromSlices;
         ...cs,
         <Card>{whoIAmContent}</Card>,
         <Card>{rcsContent}</Card>,
-        <Card>{rcsSourceContent}</Card>,
         <Card>{otherContent}</Card>,
         <Card>{howToReachMeContent}</Card>,
       ]);
@@ -428,6 +436,7 @@ const WhoIAmContainer = styled.div`
   background-color: inherit;
   align-self: stretch;
   flex-grow: 1;
+  width: 100%;
 `;
 const WhoIAmTitle = styled.div`
   position: sticky;
@@ -452,6 +461,7 @@ const Body = styled.div`
   justify-content: space-around;
   align-items: center;
   flex-grow: 1;
+  width: 100%;
 `;
 const Code = styled.div`
   white-space: pre;
