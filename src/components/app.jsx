@@ -41,14 +41,9 @@ const App = () => {
           </WhoIAmParagraph>
           <WhoIAmParagraph>
             I am the author of the library <strong>react-context-slices</strong>{" "}
-            for React and React Native, which solves once for all the problem of
-            managing global state in React and React Native. It's the definitive
-            solution to it.
-          </WhoIAmParagraph>
-          <WhoIAmParagraph>
-            This package (or library), uses only React to achieve the solution,
-            that's it, has 0 dependencies. It uses React Context in an optimal
-            way. It has 0 boilerplate.
+            for React and React Native, which simplifies global state management
+            in React and React Native when using React Context with
+            zero-boilerplate.
           </WhoIAmParagraph>
           <WhoIAmParagraph>
             The library is available through npm (just google it or click the
