@@ -19,7 +19,7 @@ const App = () => {
   useEffect(() => {
     setHeaderMessage(
       <>
-        This is personal site from <strong>Roger Gomez Castells</strong> (
+        This is personal site of <strong>Roger Gomez Castells</strong> (
         <strong>roggc</strong>)
       </>
     );
@@ -40,9 +40,9 @@ const App = () => {
             git.
           </WhoIAmParagraph>
           <WhoIAmParagraph>
-            I am the author of the library <strong>react-context-slices</strong>{" "}
-            for React and React Native, which simplifies global state management
-            in React and React Native when using React Context with
+            I am the author of <strong>react-context-slices</strong>, a library
+            that offers a unique solution to global state management in React by
+            seamlessly integrating both Redux and React Context with
             zero-boilerplate.
           </WhoIAmParagraph>
           <WhoIAmParagraph>
@@ -63,43 +63,73 @@ const App = () => {
           <Code>
             <strong>{`
 // slices.js
-import getHookAndProviderFromSlices from "react-context-slices"
+import getHookAndProviderFromSlices from "react-context-slices";
 
-export const {useSlice, Provider} = getHookAndProviderFromSlices({
-  count: {initialArg: 0}, 
-  // rest of slices
-})
+export const { useSlice, Provider } = getHookAndProviderFromSlices({
+  slices: {
+    count: { initialArg: 0 }, //React Context slice
+    todos: {
+      // Redux slice
+      initialState: [],
+      reducers: {
+        add: (state, { payload }) => {
+          state.push(payload);
+        },
+      },
+    },
+  },
+});
 `}</strong>
           </Code>
           <Code>
             <strong>{`
 // app.js
-import {useSlice} from "./slices"
+import { useSlice } from "./slices";
 
 const App = () => {
-  const [count, setCount] = useSlice("count")
-
+  const [count, setCount] = useSlice("count");
+  const [firstTodo, dispatchTodos, { add }] = useSlice(
+    "todos",
+    (state) => state[0]
+  );
   return (
-    <div>
-      <button onClick={()=>setCount(c => c + 1)}>+</button>{count}
-    </div>
-  )
-}
+    <>
+      <div>
+        <button onClick={() => setCount((c) => c + 1)}>+</button>
+        {count}
+      </div>
+      <div>
+        <button onClick={() => dispatchTodos(add("use react-context-slices"))}>
+          add
+        </button>
+        {firstTodo}
+      </div>
+    </>
+  );
+};
 
-export default App
+export default App;
 `}</strong>
           </Code>
           <Code>
             <strong>{`
 // index.js
-import {Provider} from "./slices"
-import App from "./app"
-//...
-root.render(
-  <Provider>
-    <App />
-  </Provider>
-)
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { Provider } from "./slices";
+import App from "./app";
+
+const container = document.getElementById("root");
+
+if (container !== null) {
+  createRoot(container).render(
+    <StrictMode>
+      <Provider>
+        <App />
+      </Provider>
+    </StrictMode>
+  );
+}
 `}</strong>
           </Code>
         </Body>
