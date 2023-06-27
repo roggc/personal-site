@@ -42,8 +42,9 @@ const App = () => {
           <WhoIAmParagraph>
             I am the author of <strong>react-context-slices</strong>, a library
             that offers a unique solution to global state management in React by
-            seamlessly integrating both Redux and React Context with
-            zero-boilerplate.
+            seamlessly integrating both <strong>Redux</strong> and{" "}
+            <strong>React Context</strong> with{" "}
+            <strong>zero-boilerplate</strong>.
           </WhoIAmParagraph>
           <WhoIAmParagraph>
             The library is available through npm (just google it or click the
