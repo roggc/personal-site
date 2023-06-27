@@ -68,16 +68,18 @@ import getHookAndProviderFromSlices from "react-context-slices";
 
 export const { useSlice, Provider } = getHookAndProviderFromSlices({
   slices: {
-    count: { initialArg: 0 }, //React Context slice
-    todos: {
+    count1: {
       // Redux slice
-      initialState: [],
+      initialState: 0,
       reducers: {
-        add: (state, { payload }) => {
-          state.push(payload);
-        },
+        increment: (state) => state + 1,
       },
     },
+    count2: {
+      // React Context slice
+      initialArg: 0,
+    },
+    // rest of slices (either Redux or React Context slices)
   },
 });
 `}</strong>
@@ -88,22 +90,17 @@ export const { useSlice, Provider } = getHookAndProviderFromSlices({
 import { useSlice } from "./slices";
 
 const App = () => {
-  const [count, setCount] = useSlice("count");
-  const [firstTodo, dispatchTodos, { add }] = useSlice(
-    "todos",
-    (state) => state[0]
-  );
+  const [count1, dispatchCount1, { increment }] = useSlice("count1");
+  const [count2, setCount2] = useSlice("count2");
   return (
     <>
       <div>
-        <button onClick={() => setCount((c) => c + 1)}>+</button>
-        {count}
+        <button onClick={() => dispatchCount1(increment())}>+</button>
+        {count1}
       </div>
       <div>
-        <button onClick={() => dispatchTodos(add("use react-context-slices"))}>
-          add
-        </button>
-        {firstTodo}
+        <button onClick={() => setCount2((c) => c + 1)}>+</button>
+        {count2}
       </div>
     </>
   );
