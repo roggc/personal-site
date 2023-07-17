@@ -194,6 +194,15 @@ if (container !== null) {
           </WhoIAmParagraph>
           <WhoIAmParagraph>
             <a
+              href="https://medium.com/@roggc9"
+              target="_blank"
+              onClick={stopPropagation}
+            >
+              medium.com
+            </a>
+          </WhoIAmParagraph>
+          <WhoIAmParagraph>
+            <a
               href="https://www.npmjs.com/package/react-context-slices"
               target="_blank"
               onClick={stopPropagation}
